@@ -30,7 +30,7 @@ Pastikan Node.js dan npm sudah terpasang.
 1. Clone repositori:
 
    ```bash
-   git clone <URL_REPOSITORI_GITHUB>
+   git clone https://github.com/aninlogic/library-loans-api
    ```
 
 2. Masuk ke folder proyek:
@@ -91,40 +91,61 @@ Status yang tersedia:
 
 ## Contoh Penggunaan
 
-### 1. Menambahkan Peminjaman
-
-**Request:**
-
-```http
-POST /loans
-Content-Type: application/json
-```
+### 1. Menambahkan Peminjaman (POST /loans)
 
 **Body:**
-
 ```json
 {
-  "nama_peminjam": "ANINDYA FAIRUZ AZ ZAHRA",
+  "nama_peminjam": "Budi",
   "judul_buku": "Belajar Node.js",
-  "tanggal_pinjam": "2026-10-10",
   "tanggal_jatuh_tempo": "2026-10-20",
   "status": "Dipinjam"
 }
 ```
 
-`tanggal_pinjam` dapat dihilangkan karena database memiliki nilai default. Gunakan tanggal yang sesuai saat melakukan pengujian.
-
-### 2. Memperbarui Peminjaman
-
-**Request:**
-
-```http
-PUT /loans/ID_PEMINJAMAN
-Content-Type: application/json
+**Response (201 Created):**
+```json
+{
+  "success": true,
+  "message": "Data peminjaman berhasil ditambahkan.",
+  "data": {
+    "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+    "nama_peminjam": "Budi",
+    "judul_buku": "Belajar Node.js",
+    "tanggal_pinjam": "2026-10-10",
+    "tanggal_jatuh_tempo": "2026-10-20",
+    "tanggal_kembali": null,
+    "status": "Dipinjam",
+    "created_at": "2026-10-10T10:34:01.935921+00:00"
+  }
+}
 ```
 
-**Body:**
+### 2. Mengambil Semua Data (GET /loans)
 
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "count": 1,
+  "data": [
+    {
+      "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+      "nama_peminjam": "Budi",
+      "judul_buku": "Belajar Node.js",
+      "tanggal_pinjam": "2026-10-10",
+      "tanggal_jatuh_tempo": "2026-10-20",
+      "tanggal_kembali": null,
+      "status": "Dipinjam",
+      "created_at": "2026-10-10T10:34:01.935921+00:00"
+    }
+  ]
+}
+```
+
+### 3. Memperbarui Peminjaman (PUT /loans/:id)
+
+**Body:**
 ```json
 {
   "status": "Dikembalikan",
@@ -132,27 +153,72 @@ Content-Type: application/json
 }
 ```
 
-Ganti `ID_PEMINJAMAN` dengan ID data yang benar-benar ada di database.
-
-### 3. Menghapus Peminjaman
-
-```http
-DELETE /loans/ID_PEMINJAMAN
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Data peminjaman berhasil diperbarui.",
+  "data": {
+    "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+    "nama_peminjam": "Budi",
+    "judul_buku": "Belajar Node.js",
+    "tanggal_pinjam": "2026-10-10",
+    "tanggal_jatuh_tempo": "2026-10-20",
+    "tanggal_kembali": "2026-10-15",
+    "status": "Dikembalikan",
+    "created_at": "2026-10-10T10:34:01.935921+00:00"
+  }
+}
 ```
 
-Ganti `ID_PEMINJAMAN` dengan ID data yang ingin dihapus.
+### 4. Menghapus Peminjaman (DELETE /loans/:id)
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Data peminjaman berhasil dihapus.",
+  "data": { "id": "9a22dc53-8c99-49da-805f-6357a15b45f5", "...": "..." }
+}
+```
+
+### 5. Data Tidak Ditemukan (GET /loans/:id)
+
+**Response (404 Not Found):**
+```json
+{
+  "success": false,
+  "message": "Data peminjaman tidak ditemukan."
+}
+```
+
+### 6. ID Tidak Valid (PUT /loans/:id)
+
+**Response (400 Bad Request):**
+```json
+{
+  "success": false,
+  "message": "Gagal memperbarui data peminjaman.",
+  "error": "invalid input syntax for type uuid: \"ID_KAMU\""
+}
+```
 
 ## Database
 
-Database menggunakan tabel `loans` pada Supabase dengan informasi utama:
-- `id`
-- `nama_peminjam`
-- `judul_buku`
-- `tanggal_pinjam`
-- `tanggal_jatuh_tempo`
-- `tanggal_kembali`
-- `status`
-- `created_at`
+Database menggunakan tabel `loans` pada Supabase (PostgreSQL) dengan struktur berikut:
+
+| Kolom | Tipe | Default | Wajib diisi | Keterangan |
+|---|---|---|---|---|
+| id | uuid | `gen_random_uuid()` | Otomatis | Primary key |
+| nama_peminjam | text | - | Ya | Nama anggota peminjam |
+| judul_buku | text | - | Ya | Judul buku yang dipinjam |
+| tanggal_pinjam | date | `CURRENT_DATE` | Tidak | Terisi tanggal hari ini jika tidak dikirim |
+| tanggal_jatuh_tempo | date | - | Ya | Batas pengembalian |
+| tanggal_kembali | date | - | Tidak (boleh null) | Null jika buku belum dikembalikan |
+| status | text | `'Dipinjam'` | Tidak | Dipinjam / Dikembalikan / Terlambat |
+| created_at | timestamp with time zone | `now()` | Otomatis | Waktu data dibuat |
+
+Saat `POST /loans`, field yang wajib dikirim hanya `nama_peminjam`, `judul_buku`, dan `tanggal_jatuh_tempo`. Field lain punya default atau boleh kosong.
 
 ## Deployment
 
