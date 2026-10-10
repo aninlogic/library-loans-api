@@ -109,14 +109,14 @@ Status yang tersedia:
   "success": true,
   "message": "Data peminjaman berhasil ditambahkan.",
   "data": {
-    "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+    "id": "9f34367c-e978-434f-bb9f-5eb27b86c73c",
     "nama_peminjam": "Budi",
     "judul_buku": "Belajar Node.js",
     "tanggal_pinjam": "2026-10-10",
     "tanggal_jatuh_tempo": "2026-10-20",
     "tanggal_kembali": null,
     "status": "Dipinjam",
-    "created_at": "2026-10-10T10:34:01.935921+00:00"
+    "created_at": "2026-10-10T10:58:36.110735+00:00"
   }
 }
 ```
@@ -127,17 +127,27 @@ Status yang tersedia:
 ```json
 {
   "success": true,
-  "count": 1,
+  "count": 2,
   "data": [
     {
-      "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+      "id": "9f34367c-e978-434f-bb9f-5eb27b86c73c",
       "nama_peminjam": "Budi",
       "judul_buku": "Belajar Node.js",
       "tanggal_pinjam": "2026-10-10",
       "tanggal_jatuh_tempo": "2026-10-20",
       "tanggal_kembali": null,
       "status": "Dipinjam",
-      "created_at": "2026-10-10T10:34:01.935921+00:00"
+      "created_at": "2026-10-10T10:58:36.110735+00:00"
+    },
+    {
+      "id": "676f55ed-32d3-458e-8842-a77e8ffa58ef",
+      "nama_peminjam": "Sari",
+      "judul_buku": "Basis Data",
+      "tanggal_pinjam": "2026-10-10",
+      "tanggal_jatuh_tempo": "2026-10-05",
+      "tanggal_kembali": null,
+      "status": "Terlambat",
+      "created_at": "2026-10-10T10:58:35.547925+00:00"
     }
   ]
 }
@@ -148,8 +158,8 @@ Status yang tersedia:
 **Body:**
 ```json
 {
-  "status": "Dikembalikan",
-  "tanggal_kembali": "2026-10-15"
+  "tanggal_kembali": "2026-10-15",
+  "status": "Dikembalikan"
 }
 ```
 
@@ -159,14 +169,14 @@ Status yang tersedia:
   "success": true,
   "message": "Data peminjaman berhasil diperbarui.",
   "data": {
-    "id": "9a22dc53-8c99-49da-805f-6357a15b45f5",
+    "id": "9f34367c-e978-434f-bb9f-5eb27b86c73c",
     "nama_peminjam": "Budi",
     "judul_buku": "Belajar Node.js",
     "tanggal_pinjam": "2026-10-10",
     "tanggal_jatuh_tempo": "2026-10-20",
     "tanggal_kembali": "2026-10-15",
     "status": "Dikembalikan",
-    "created_at": "2026-10-10T10:34:01.935921+00:00"
+    "created_at": "2026-10-10T10:58:36.110735+00:00"
   }
 }
 ```
@@ -178,7 +188,16 @@ Status yang tersedia:
 {
   "success": true,
   "message": "Data peminjaman berhasil dihapus.",
-  "data": { "id": "9a22dc53-8c99-49da-805f-6357a15b45f5", "...": "..." }
+  "data": {
+    "id": "9f34367c-e978-434f-bb9f-5eb27b86c73c",
+    "nama_peminjam": "Budi",
+    "judul_buku": "Belajar Node.js",
+    "tanggal_pinjam": "2026-10-10",
+    "tanggal_jatuh_tempo": "2026-10-20",
+    "tanggal_kembali": null,
+    "status": "Dipinjam",
+    "created_at": "2026-10-10T10:58:36.110735+00:00"
+  }
 }
 ```
 
