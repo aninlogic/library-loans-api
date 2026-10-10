@@ -158,7 +158,7 @@ Database menggunakan tabel `loans` pada Supabase dengan informasi utama:
 
 URL API yang telah dideploy ke Vercel:
 
-`<URL_DEPLOYMENT_VERCEL>`
+`https://library-loans-api-six.vercel.app/`
 
 ## Catatan Keamanan
 
